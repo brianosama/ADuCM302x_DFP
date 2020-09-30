@@ -6,14 +6,18 @@ C_SRCS := Drivers/Source/system_ADuCM3029.c \
 						
 A_SRCS := Drivers/Source/GCC/reset_ADuCM3029.S
 
-OBJS = 	$(addsuffix .o, $(addprefix $(MUSKA_DFP)/,$(basename $(C_SRCS)))) \
-		$(addsuffix .o, $(addprefix $(MUSKA_DFP)/,$(basename $(A_SRCS))))
+ifndef DFP_FOLDER
+	DFP_FOLDER = ADuCM302x_DFP
+endif
+
+OBJS = 	$(addsuffix .o, $(addprefix $(DFP_FOLDER)/,$(basename $(C_SRCS)))) \
+		$(addsuffix .o, $(addprefix $(DFP_FOLDER)/,$(basename $(A_SRCS))))
 
 				
-INC_DIRS = $(MUSKA_DFP)/ARM_CMSIS/Include \
-			$(MUSKA_DFP)/Drivers/Include \
-			$(MUSKA_DFP)/Drivers/Include/config \
-			$(MUSKA_DFP)/Drivers/Include/sys \
+INC_DIRS = $(DFP_FOLDER)/ARM_CMSIS/Include \
+			$(DFP_FOLDER)/Drivers/Include \
+			$(DFP_FOLDER)/Drivers/Include/config \
+			$(DFP_FOLDER)/Drivers/Include/sys \
 			$(COMPILER_PATH)arm-none-eabi/include
 
 MCFLAGS := -mcpu=cortex-m4 \
@@ -23,7 +27,7 @@ MCFLAGS := -mcpu=cortex-m4 \
 DEFS	:= -D__ADUCM3029__ \
 		   -DADI_DEBUG
 		   
-LDSCRIPT:= $(MUSKA_DFP)/Drivers/Source/GCC/ADuCM3029.ld
+LDSCRIPT:= $(DFP_FOLDER)/Drivers/Source/GCC/ADuCM3029.ld
 
 	   
 
